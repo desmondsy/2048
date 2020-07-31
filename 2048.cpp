@@ -24,6 +24,8 @@ bool move_merge_s(vector<vector<int> > &vec);
 bool no_more_space(vector<vector<int> > vec);
 bool no_more_valid_moves(vector<vector<int> > vec);
 
+int score = 0;
+
 // checks if there are any more valid moves on the board
 bool no_more_valid_moves(vector<vector<int> > vec) {
 	bool r = true;
@@ -44,7 +46,7 @@ bool no_more_valid_moves(vector<vector<int> > vec) {
 }
 
 // if a zero is present, then return false.
-bool no_more_space(vector<vector<int> > vec) { 
+bool no_more_space(vector<vector<int> > vec) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			if (vec[i][j] == 0) {
@@ -55,9 +57,16 @@ bool no_more_space(vector<vector<int> > vec) {
 	return true;
 }
 
+
+// output score
+void print_score(vector<vector<int> > vec){
+	cout << "Score: " << score << endl;
+}
+
+
 // print the board
 void print(vector<vector<int> > vec) {
-
+	print_score(vec);
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			cout << vec[i][j] << "\t";
@@ -65,6 +74,12 @@ void print(vector<vector<int> > vec) {
 		cout << endl << endl;
 	}
 }
+
+
+void add_score(int score_added){
+	score += score_added;
+}
+
 
 /*for the functions below, change the value of i or j in the for loops to match the operation
  * because both i and j range from 0 to 3, therefore match accordingly. This applies to the merge
@@ -108,7 +123,7 @@ bool move_merge_w(vector<vector<int> > &vec) {
 }
 
 // swap if number above is detected to be a 0
-bool move_up(vector<vector<int> > &vec) { 
+bool move_up(vector<vector<int> > &vec) {
 
 	bool r = false;
 	for (int k = 0; k < 4; k++) {
@@ -130,7 +145,7 @@ bool move_up(vector<vector<int> > &vec) {
 }
 
 // the merge function in this case only merges adjacent cells if detected to be equal.
-bool merge_w(vector<vector<int> > &vec) { 
+bool merge_w(vector<vector<int> > &vec) {
 
 	bool r = false;
 	for (int j = 0; j < 4; j++) {
@@ -141,6 +156,7 @@ bool merge_w(vector<vector<int> > &vec) {
 				}
 				vec[i][j] = vec[i + 1][j] + vec[i][j];
 				vec[i + 1][j] = 0;
+				add_score(vec[i][j]);
 			}
 		}
 	}
@@ -149,7 +165,7 @@ bool merge_w(vector<vector<int> > &vec) {
 
 
 // move right
-bool move_merge_d(vector<vector<int> > &vec) { 
+bool move_merge_d(vector<vector<int> > &vec) {
 	bool r = false;
 	if (move_right(vec)) {
 		r = true;
@@ -190,6 +206,7 @@ bool merge_d(vector<vector<int> > &vec) {
 				}
 				vec[i][j] = vec[i][j - 1] + vec[i][j];
 				vec[i][j - 1] = 0;
+				add_score(vec[i][j]);
 			}
 		}
 	}
@@ -239,6 +256,7 @@ bool merge_a(vector<vector<int> > &vec) {
 				}
 				vec[i][j] = vec[i][j + 1] + vec[i][j];
 				vec[i][j + 1] = 0;
+				add_score(vec[i][j]);
 			}
 		}
 	}
@@ -289,6 +307,7 @@ bool merge_s(vector<vector<int> > &vec) {
 				}
 				vec[i][j] = vec[i - 1][j] + vec[i][j];
 				vec[i - 1][j] = 0;
+				add_score(vec[i][j]);
 			}
 		}
 	}
